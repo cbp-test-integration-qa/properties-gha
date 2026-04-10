@@ -16,10 +16,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Parse properties and export env variables
+      - name: Initialize properties file
         run: |
           echo "$PROPERTIES" > properties.json
 
+      - name: Update properties values
+        run: |
+          jq '.TEST_ENV_VALUE.value = "updated_value" |
+              .FEATURE_FLAG.value = false |
+              .RETRY_COUNT.value = 5' properties.json > temp.json
+          mv temp.json properties.json
+
+      - name: Parse properties and export env variables
+        run: |
           TEST_ENV_VALUE=$(jq -r '.TEST_ENV_VALUE.value' properties.json)
           FEATURE_FLAG=$(jq -r '.FEATURE_FLAG.value' properties.json)
           RETRY_COUNT=$(jq -r '.RETRY_COUNT.value' properties.json)
@@ -37,7 +46,7 @@ jobs:
           echo "==========================" >> $REPORT_FILE
 
           echo "String Value: $TEST_ENV_VALUE" >> $REPORT_FILE
-          if [ "$TEST_ENV_VALUE" = "test_value" ]; then
+          if [ "$TEST_ENV_VALUE" = "updated_value" ]; then
             echo "String Validation: PASS" >> $REPORT_FILE
           else
             echo "String Validation: FAIL" >> $REPORT_FILE
