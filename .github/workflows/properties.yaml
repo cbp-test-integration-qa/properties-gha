@@ -109,6 +109,4 @@ jobs:
         with:
           path: public
 
-      - name: Deploy to GitHub Pages
-        if: always()
-        uses: actions/deploy-pages@v4
+     
