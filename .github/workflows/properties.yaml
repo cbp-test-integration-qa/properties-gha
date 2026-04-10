@@ -12,9 +12,9 @@ on:
 env:
   PROPERTIES: >
     {
-      "TEST_ENV_VALUE_property": { "type": "string", "value": "test value"},
-      "RETRY_COUNT_property": { "type": "number", "value": 12345},
-      "FEATURE_FLAG_property": { "type": "boolean", "value": true}
+      "TEST_ENV_VALUE_property": { "type": "string", "value": "test"},
+      "RETRY_COUNT_property": { "type": "number", "value": 6789},
+      "FEATURE_FLAG_property": { "type": "boolean", "value": false}
     }
 
 jobs:
