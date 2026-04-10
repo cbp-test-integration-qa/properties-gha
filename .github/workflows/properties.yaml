@@ -1,0 +1,78 @@
+name: Property Verification Workflow
+
+on:
+  workflow_dispatch:
+
+env:
+  PROPERTIES: >
+    {
+      "TEST_ENV_VALUE": { "type": "string", "value": "test_value" },
+      "FEATURE_FLAG": { "type": "boolean", "value": true },
+      "RETRY_COUNT": { "type": "number", "value": 3 }
+    }
+
+jobs:
+  test-properties:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Parse properties and export env variables
+        run: |
+          echo "$PROPERTIES" > properties.json
+
+          TEST_ENV_VALUE=$(jq -r '.TEST_ENV_VALUE.value' properties.json)
+          FEATURE_FLAG=$(jq -r '.FEATURE_FLAG.value' properties.json)
+          RETRY_COUNT=$(jq -r '.RETRY_COUNT.value' properties.json)
+
+          echo "TEST_ENV_VALUE=$TEST_ENV_VALUE" >> $GITHUB_ENV
+          echo "FEATURE_FLAG=$FEATURE_FLAG" >> $GITHUB_ENV
+          echo "RETRY_COUNT=$RETRY_COUNT" >> $GITHUB_ENV
+
+      - name: Validate properties and generate report
+        run: |
+          REPORT_FILE=validation_report.txt
+          STATUS=0
+
+          echo "Property Validation Report" > $REPORT_FILE
+          echo "==========================" >> $REPORT_FILE
+
+          echo "String Value: $TEST_ENV_VALUE" >> $REPORT_FILE
+          if [ "$TEST_ENV_VALUE" = "test_value" ]; then
+            echo "String Validation: PASS" >> $REPORT_FILE
+          else
+            echo "String Validation: FAIL" >> $REPORT_FILE
+            STATUS=1
+          fi
+
+          echo "" >> $REPORT_FILE
+
+          echo "Boolean Value: $FEATURE_FLAG" >> $REPORT_FILE
+          if [ "$FEATURE_FLAG" = "true" ] || [ "$FEATURE_FLAG" = "false" ]; then
+            echo "Boolean Validation: PASS" >> $REPORT_FILE
+          else
+            echo "Boolean Validation: FAIL" >> $REPORT_FILE
+            STATUS=1
+          fi
+
+          echo "" >> $REPORT_FILE
+
+          echo "Number Value: $RETRY_COUNT" >> $REPORT_FILE
+          if [[ "$RETRY_COUNT" =~ ^[0-9]+$ ]]; then
+            echo "Number Validation: PASS" >> $REPORT_FILE
+          else
+            echo "Number Validation: FAIL" >> $REPORT_FILE
+            STATUS=1
+          fi
+
+          echo "==========================" >> $REPORT_FILE
+
+          cat $REPORT_FILE
+
+          exit $STATUS
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: property-validation-report
+          path: validation_report.txt
