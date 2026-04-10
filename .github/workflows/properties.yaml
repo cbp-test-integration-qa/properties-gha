@@ -13,13 +13,18 @@ env:
   PROPERTIES: >
     {
       "TEST_ENV_VALUE_property": { "type": "string", "value": "test value"},
-      "RETRY_COUNT_property": { "type": "number", "value": 12345},
-      "FEATURE_FLAG_property": { "type": "boolean", "value": true}
+      "RETRY_COUNT_property": { "type": "number", "value": 5678},
+      "FEATURE_FLAG_property": { "type": "boolean", "value": false}
     }
 
 jobs:
   test-properties:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     steps:
       - name: Initialize properties file
@@ -85,9 +90,25 @@ jobs:
 
           exit $STATUS
 
-      - name: Upload validation report
+      - name: Upload validation report (artifact)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: property-validation-report
           path: validation_report.txt
+
+      - name: Prepare report for publishing
+        if: always()
+        run: |
+          mkdir public
+          cp validation_report.txt public/index.txt
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: actions/deploy-pages@v4
