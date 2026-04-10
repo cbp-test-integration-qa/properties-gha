@@ -14,8 +14,7 @@ env:
     {
       "TEST_ENV_VALUE_property": { "type": "string", "value": "test value" },
       "RETRY_COUNT_property": { "type": "number", "value": 12345 },
-      "FEATURE_FLAG_property": { "type": "boolean", "value": false }
-    }
+      "FEATURE_FLAG_property": { "type": "boolean", "value": false }false}
 
 jobs:
   test-properties:
