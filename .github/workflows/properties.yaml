@@ -2,6 +2,12 @@ name: Property Verification Workflow
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 env:
   PROPERTIES: >
@@ -76,6 +82,7 @@ jobs:
           echo "==========================" >> $REPORT_FILE
 
           cat $REPORT_FILE
+
           exit $STATUS
 
       - name: Upload validation report
