@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  PROPERTIES: >
+  PROPERTIES: |
     {
       "TEST_ENV_VALUE_property": { "type": "string", "value": "test value"},
       "RETRY_COUNT_property": { "type": "number", "value": 12345},
