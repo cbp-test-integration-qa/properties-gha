@@ -12,9 +12,9 @@ on:
 env:
   PROPERTIES: >
     {
-      "TEST_ENV_VALUE": { "type": "string", "value": "test value"},
-      "FEATURE_FLAG": { "type": "boolean", "value": false},
-      "RETRY_COUNT": { "type": "number", "value": 5678}
+      "TEST_ENV_VALUE_property": { "type": "string", "value": "test value"},
+      "RETRY_COUNT_property": { "type": "boolean", "value": false},
+      "FEATURE_FLAG_property": { "type": "number", "value": 5678}
     }
 
 jobs:
@@ -28,20 +28,20 @@ jobs:
 
       - name: Update properties values
         run: |
-          jq '.TEST_ENV_VALUE.value = "updated_value" |
-              .FEATURE_FLAG.value = false |
-              .RETRY_COUNT.value = 5' properties.json > temp.json
+          jq '.TEST_ENV_VALUE_property.value = "updated_value" |
+              .FEATURE_FLAG_property.value = false |
+              .RETRY_COUNT_property.value = 5' properties.json > temp.json
           mv temp.json properties.json
 
       - name: Parse properties and export env variables
         run: |
-          TEST_ENV_VALUE=$(jq -r '.TEST_ENV_VALUE.value' properties.json)
-          FEATURE_FLAG=$(jq -r '.FEATURE_FLAG.value' properties.json)
-          RETRY_COUNT=$(jq -r '.RETRY_COUNT.value' properties.json)
+          TEST_ENV_VALUE_property=$(jq -r '.TEST_ENV_VALUE_property.value' properties.json)
+          FEATURE_FLAG_property=$(jq -r '.FEATURE_FLAG_property.value' properties.json)
+          RETRY_COUNT_property=$(jq -r '.RETRY_COUNT_property.value' properties.json)
 
-          echo "TEST_ENV_VALUE=$TEST_ENV_VALUE" >> $GITHUB_ENV
-          echo "FEATURE_FLAG=$FEATURE_FLAG" >> $GITHUB_ENV
-          echo "RETRY_COUNT=$RETRY_COUNT" >> $GITHUB_ENV
+          echo "TEST_ENV_VALUE_property=$TEST_ENV_VALUE_property" >> $GITHUB_ENV
+          echo "FEATURE_FLAG_property=$FEATURE_FLAG_property" >> $GITHUB_ENV
+          echo "RETRY_COUNT_property=$RETRY_COUNT_property" >> $GITHUB_ENV
 
       - name: Validate properties and generate report
         run: |
@@ -51,8 +51,8 @@ jobs:
           echo "Property Validation Report" > $REPORT_FILE
           echo "==========================" >> $REPORT_FILE
 
-          echo "String Value: $TEST_ENV_VALUE" >> $REPORT_FILE
-          if [ "$TEST_ENV_VALUE" = "updated_value" ]; then
+          echo "String Value: $TEST_ENV_VALUE_property" >> $REPORT_FILE
+          if [ "$TEST_ENV_VALUE_property" = "updated_value" ]; then
             echo "String Validation: PASS" >> $REPORT_FILE
           else
             echo "String Validation: FAIL" >> $REPORT_FILE
@@ -61,8 +61,8 @@ jobs:
 
           echo "" >> $REPORT_FILE
 
-          echo "Boolean Value: $FEATURE_FLAG" >> $REPORT_FILE
-          if [ "$FEATURE_FLAG" = "true" ] || [ "$FEATURE_FLAG" = "false" ]; then
+          echo "Boolean Value: $FEATURE_FLAG_property" >> $REPORT_FILE
+          if [ "$FEATURE_FLAG_property" = "true" ] || [ "$FEATURE_FLAG_property" = "false" ]; then
             echo "Boolean Validation: PASS" >> $REPORT_FILE
           else
             echo "Boolean Validation: FAIL" >> $REPORT_FILE
@@ -71,8 +71,8 @@ jobs:
 
           echo "" >> $REPORT_FILE
 
-          echo "Number Value: $RETRY_COUNT" >> $REPORT_FILE
-          if [[ "$RETRY_COUNT" =~ ^[0-9]+$ ]]; then
+          echo "Number Value: $RETRY_COUNT_property" >> $REPORT_FILE
+          if [[ "$RETRY_COUNT_property" =~ ^[0-9]+$ ]]; then
             echo "Number Validation: PASS" >> $REPORT_FILE
           else
             echo "Number Validation: FAIL" >> $REPORT_FILE
