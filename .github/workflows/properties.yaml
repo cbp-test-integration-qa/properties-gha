@@ -96,5 +96,3 @@ jobs:
         with:
           name: property-validation-report
           path: validation_report.txt
-      
-  
