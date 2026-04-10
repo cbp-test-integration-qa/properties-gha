@@ -13,8 +13,8 @@ env:
   PROPERTIES: >
     {
       "TEST_ENV_VALUE": { "type": "string", "value": "test value"},
-      "FEATURE_FLAG": { "type": "boolean", "value": true},
-      "RETRY_COUNT": { "type": "number", "value": 12345}
+      "FEATURE_FLAG": { "type": "boolean", "value": false},
+      "RETRY_COUNT": { "type": "number", "value": 5678}
     }
 
 jobs:
