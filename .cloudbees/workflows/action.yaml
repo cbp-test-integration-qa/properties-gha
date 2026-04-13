@@ -1,17 +1,42 @@
 apiVersion: automation.cloudbees.io/v1alpha1
 kind: workflow
-name: My workflow
+name: publish-evidence-validation
 
 on:
-  push:
-    branches:
-      - '**'
+  workflow_dispatch:
+    inputs:
+      evidence_content:
+        description: Actual evidence content
+        type: string
+        options: []
+
+      expected_content:
+        description: Expected evidence content
+        type: string
+        options: []
 
 jobs:
-  build:
+  publish-evidence-job:
     steps:
-      - name: Say hello
-        uses: docker://golang:1.20.3-alpine3.17
-        shell: sh
+      - name: Publish Evidence
+        uses: testactions
+        with:
+          content: "${{ inputs.evidence_content }}"
+          format: MARKDOWN
+
+      - name: Validate Evidence
+        uses: docker://alpine:3.18
         run: |
-          echo "hello world"
+          ACTUAL="${{ inputs.evidence_content }}"
+          EXPECTED="${{ inputs.expected_content }}"
+
+          echo "Expected: $EXPECTED"
+          echo "Actual: $ACTUAL"
+
+          if [ "$ACTUAL" = "$EXPECTED" ]; then
+            echo "RESULT: PASS"
+            exit 0
+          else
+            echo "RESULT: FAIL"
+            exit 1
+          fi
