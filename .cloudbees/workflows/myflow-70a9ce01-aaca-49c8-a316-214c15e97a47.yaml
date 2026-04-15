@@ -1,0 +1,18 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My workflow
+on:
+  push:
+    branches:
+      - "**"
+jobs:
+  build:
+    steps:
+      - name: Say hello
+        run: |
+          echo "hello world"
+        uses: docker://golang:1.20.3-alpine3.17
+        shell: sh
+      - with:
+          content: This is created today for testing functional test
+        uses: AutoTest.PublishEvidence.eaa6d5e7-b804-4eb9-8496-762f10b4bd92.Action
