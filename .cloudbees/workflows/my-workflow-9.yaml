@@ -13,4 +13,4 @@ jobs:
            with:
                 args: sh -c "echo Hello from Alpine"
         uses: docker://alpine:3.19
-        shell: /bin/sh
+        shell: sh
