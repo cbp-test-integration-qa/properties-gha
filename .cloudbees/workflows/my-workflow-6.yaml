@@ -1,0 +1,15 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My workflow
+on:
+  push:
+    branches:
+      - "**"
+jobs:
+  build:
+    steps:
+      - name: Say hello
+        run: |
+          echo "hello world"
+        uses: AutoTest.PublishEvidence.82d7b0fd-539d-4d39-bd3d-054bc2201e9f.Action
+        shell: sh
