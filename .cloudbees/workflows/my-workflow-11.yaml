@@ -8,8 +8,9 @@ on:
 jobs:
   build:
     steps:
-      - uses: docker://alpine:3.19
-        run: '"success run"'
+      - run: '"success run"'
+        uses: docker://alpine:3.19
+        shell: sh
   container:
     steps:
       - run: '"Good testing success"'
