@@ -9,4 +9,6 @@ jobs:
   build:
     steps:
       - name: Say hello
+        run: echo "Good"
         uses: docker://alpine:3.19
+        shell: /bin/sh
