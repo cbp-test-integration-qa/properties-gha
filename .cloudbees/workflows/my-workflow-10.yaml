@@ -8,12 +8,10 @@ on:
 jobs:
   build:
     steps:
-      - name: Say hello
-        uses: docker://alpine:3.19
-        shell: sh
+      - uses: AutoTest.PublishEvidence.02103975-739c-40c3-b0fe-a8d29dbedcff.Action
   container:
     steps:
       - name: container test
-        run: echo "Hello from Alpine"
+        run: echo "Hello from Alpinetest "
         uses: docker://alpine:3.19
         shell: sh
