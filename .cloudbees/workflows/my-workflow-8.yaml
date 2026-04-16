@@ -9,5 +9,4 @@ jobs:
   build:
     steps:
       - name: Say hello
-        uses: docker://alpine:3.19
-        shell: sh
+        uses: actions/E2E_publish_evidence_item
