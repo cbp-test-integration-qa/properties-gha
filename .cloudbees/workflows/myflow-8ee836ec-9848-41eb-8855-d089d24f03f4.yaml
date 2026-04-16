@@ -1,0 +1,14 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My workflow
+on:
+  push:
+    branches:
+      - "**"
+jobs:
+  Jobonly:
+    steps:
+      - name: Say hello
+        run: echo "Hello from container action!"
+        uses: docker://alpine:3.19
+        shell: sh
