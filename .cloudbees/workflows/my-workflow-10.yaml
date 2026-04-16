@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     steps:
-      - uses: AutoTest.PublishEvidence.02103975-739c-40c3-b0fe-a8d29dbedcff.Action
+      - uses: E2E_publish_evidence_item
   container:
     steps:
       - name: container test
