@@ -11,3 +11,9 @@ jobs:
       - name: Say hello
         uses: docker://alpine:3.19
         shell: sh
+  container:
+    steps:
+      - name: container test
+        run: echo "Hello from Alpine"
+        uses: docker://alpine:3.19
+        shell: sh
