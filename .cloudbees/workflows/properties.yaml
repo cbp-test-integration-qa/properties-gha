@@ -1,28 +1,30 @@
 apiVersion: automation.cloudbees.io/v1alpha1
-  kind: workflow
-  name: Property Verification Workflow
-  on:
-    workflow_dispatch:
-    push:
-      branches:
-        - main
-  jobs:
-    test-properties:
-      steps:
-        - name: Verify CloudBees Properties
-          uses: docker://alpine:3.19
-          shell: sh
-          run: |
-            echo "=== Verifying CloudBees Properties ==="
-            echo "Property TEST_ENV_VALUE_property: ${{ vars.TEST_ENV_VALUE_property }}"
-            echo "Property RETRY_COUNT_property: ${{ vars.RETRY_COUNT_property }}"
-            echo "Property FEATURE_FLAG_property: ${{ vars.FEATURE_FLAG_property }}"
-            echo "=== Properties verification completed ==="
+kind: workflow
+name: Property Verification Workflow
 
-        - name: Verify CloudBees Secret Properties
-          uses: docker://alpine:3.19
-          shell: sh
-          run: |
-            echo "=== Verifying CloudBees Secret Properties ==="
-            echo "Secret SECRET_VALUE_property: ${{ secrets.SECRET_VALUE_property }}"
-            echo "=== Secret properties verification completed (values are masked) ==="
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-properties:
+    steps:
+      - name: Verify CloudBees Properties
+        uses: docker://alpine:3.19
+        shell: sh
+        run: |
+          echo "=== Verifying CloudBees Properties ==="
+          echo "Property TEST_ENV_VALUE_property: ${{ vars.TEST_ENV_VALUE_property }}"
+          echo "Property RETRY_COUNT_property: ${{ vars.RETRY_COUNT_property }}"
+          echo "Property FEATURE_FLAG_property: ${{ vars.FEATURE_FLAG_property }}"
+          echo "=== Properties verification completed ==="
+
+      - name: Verify CloudBees Secret Properties
+        uses: docker://alpine:3.19
+        shell: sh
+        run: |
+          echo "=== Verifying CloudBees Secret Properties ==="
+          echo "Secret SECRET_VALUE_property: ${{ secrets.SECRET_VALUE_property }}"
+          echo "=== Secret properties verification completed (values are masked) ==="
