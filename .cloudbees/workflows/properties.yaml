@@ -26,5 +26,3 @@ apiVersion: automation.cloudbees.io/v1alpha1
             echo "=== Verifying CloudBees Secret Properties ==="
             echo "Secret SECRET_VALUE_property: ${{ secrets.SECRET_VALUE_property }}"
             echo "=== Secret properties verification completed (values are masked) ==="
-
-
