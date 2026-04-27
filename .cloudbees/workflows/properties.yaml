@@ -1,3 +1,5 @@
+# Last test run: 2026-04-27T09:37:56.319Z
+# E2E test - Trigger workflow with properties: TEST_ENV_VALUE_property=test value, RETRY_COUNT_property=12345, FEATURE_FLAG_property=false, SECRET_VALUE_property=*** - 1777282636102
 apiVersion: automation.cloudbees.io/v1alpha1
 kind: workflow
 name: Property Verification Workflow
